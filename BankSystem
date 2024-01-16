@@ -1,0 +1,63 @@
+import java.util.Scanner;
+public class BankSystem {
+    public void Withdraw(AccountTypes user) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Which account would you like to withdraw from:\n1. Savings\n2. Chequing");
+        int choice = input.nextInt();
+        System.out.print("How much would you like to withdraw: ");
+        double withdrawal = input.nextDouble();
+
+        if (choice == 1) {
+            user.setSavingsBal(user.getSavingsBal() - withdrawal);
+            System.out.println("New Savings balance: " + user.getSavingsBal());
+        } else {
+            user.setChequingBal(user.getChequingBal() - withdrawal);
+            System.out.println("New Chequing balance: " + user.getChequingBal());
+        }
+    }
+    public void Deposit(AccountTypes user) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Which account would you like to deposit into:\n1. Savings\n2. Chequing");
+        int choice = input.nextInt();
+        System.out.print("How much would you like to deposit: ");
+        double deposit = input.nextDouble();
+
+        if (choice == 1) {
+            user.setSavingsBal(user.getSavingsBal() + deposit);
+            System.out.println("New Savings balance: " + user.getSavingsBal());
+        } else {
+            user.setChequingBal(user.getChequingBal() + deposit);
+            System.out.println("New Chequing balance: " + user.getChequingBal());
+        }
+    }
+    public void CheckBalance(AccountTypes user) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Which account would you like to check the balance for:\n1. Savings\n2. Chequing");
+        int choice = input.nextInt();
+
+        if (choice == 1) {
+            System.out.println("Savings balance: " + user.getSavingsBal());
+        } else {
+            // Assuming you have a similar getChequingBal method in AccountTypes
+            System.out.println("Chequing balance: " + user.getChequingBal());
+        }
+    }
+    public void predictInterest(AccountTypes user) {
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("Enter the interest rate (%): ");
+        double interestRate = input.nextDouble();
+
+        // Assuming interest rate is given annually
+        double monthlyRate = interestRate / 12 / 100;
+
+        // Calculate projected interest for the next month
+        double nextMonthInterest = user.getSavingsBal() * monthlyRate;
+
+        // Calculate projected interest for the next year
+        double nextYearInterest = user.getSavingsBal() * interestRate / 100;
+
+        System.out.println("Projected interest for the next month: $" + nextMonthInterest);
+        System.out.println("Projected interest for the next year: $" + nextYearInterest);
+    }
+}
