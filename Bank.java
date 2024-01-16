@@ -50,38 +50,4 @@ public class Bank {
             System.out.println("Username or password is incorrect.");
         }
     }
-
-    // Method to write account information to a text file
-    public void writeAccountsToFile() {
-        try (PrintWriter writer = new PrintWriter("userAccounts.txt")) {
-            for (Map.Entry<String, String> entry : userAccounts.entrySet()) {
-                writer.println("Username: " + entry.getKey());
-                writer.println("Password: " + entry.getValue());
-                writer.println(); // Add an empty line to separate accounts
-            }
-            System.out.println("Accounts written to file successfully.");
-        } catch (IOException e) {
-            System.out.println("Error writing accounts to file: " + e.getMessage());
-        }
-    }
-
-    // Method to read account information from a text file
-    public void readAccountsFromFile() {
-        try (Scanner scanner = new Scanner(new File("userAccounts.txt"))) {
-            while (scanner.hasNextLine()) {
-                String username = scanner.nextLine().replace("Username: ", "");
-                String password = scanner.nextLine().replace("Password: ", "");
-
-                userAccounts.put(username, password);
-
-                if (scanner.hasNextLine()) {
-                    // Skip the empty line separating accounts
-                    scanner.nextLine();
-                }
-            }
-            System.out.println("Accounts read from file successfully.");
-        } catch (IOException e) {
-            System.out.println("Error reading accounts from file: " + e.getMessage());
-        }
-    }
 }
