@@ -1,0 +1,182 @@
+import java.util.Scanner;
+import java.util.InputMismatchException;
+
+public class BankSystem {
+    private static int index;
+private Double deposit;
+private Double withdrawal;
+    public void Withdraw(Account user) {
+        Scanner input = new Scanner(System.in);
+        index = FileIO.getUsernames().indexOf(user.getUsername());
+        int choice = 0;
+
+        while (true) {
+            try {
+                System.out.println("Which account would you like to withdraw from:\n1. Savings\n2. Chequing");
+                choice = input.nextInt();
+
+                if (choice == 1 || choice == 2) {
+                    break;
+                } else {
+                    System.out.println("Invalid option. Please Try again.");
+                }
+            }
+            catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                input.nextLine();
+            }
+        }
+
+        while (true) {
+            try {
+                System.out.print("How much would you like to withdraw: ");
+                withdrawal = input.nextDouble();
+
+                // Check if withdrawal amount is non-negative and within the account balance
+                if (withdrawal >= 0) {
+                    if ((choice == 1 && withdrawal <= user.getSavingsBal()) || (choice == 2 && withdrawal <= user.getChequingBal())) {
+                        break;
+                    } else {
+                        System.out.println("Insufficient funds. Please enter a valid withdrawal amount.");
+                        System.out.println(("You currently have $" + user.getSavingsBal() + " in your savings and $" + user.getChequingBal()
+                                + " in your chequing. If you are trying to withdraw money from an account with $0 please enter 0 to exit."));
+                    }
+                }
+                else {
+                    System.out.println("Please enter a non-negative withdrawal amount.");
+                }
+            }
+            catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                input.nextLine();
+            }
+        }
+
+        if (choice == 1) {
+            user.setSavingsBal(user.getSavingsBal() - withdrawal);
+            System.out.println("New Savings balance: " + user.getSavingsBal());
+            FileIO.getSavings().set(index, String.valueOf(user.getSavingsBal()));
+        }
+        else {
+            user.setChequingBal(user.getChequingBal() - withdrawal);
+            System.out.println("New Chequing balance: " + user.getChequingBal());
+            FileIO.getChequing().set(index, String.valueOf(user.getChequingBal()));
+        }
+    }
+    public void Deposit(Account user) {
+        Scanner input = new Scanner(System.in);
+        index = FileIO.getUsernames().indexOf(user.getUsername());
+
+        int choice = 0;
+
+        while (true) {
+            try {
+                System.out.println("Which account would you like to deposit into:\n1. Savings\n2. Chequing");
+                choice = input.nextInt();
+
+                if (choice == 1 || choice == 2) {
+                    break;
+                }
+                else {
+                    System.out.println("Invalid option. Please Try again.");
+                }
+            }
+            catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                input.nextLine();
+            }
+        }
+        while (true) {
+            try {
+                System.out.print("How much would you like to deposit: ");
+                deposit = input.nextDouble();
+
+                if (deposit >= 0) {
+                    break;
+                }
+                else {
+                    System.out.println("Please enter a non-negative deposit amount.");
+                }
+            }
+            catch (InputMismatchException e) {
+                System.out.println("Invalid input. Try again.");
+                input.nextLine();
+            }
+        }
+
+        if (choice == 1) {
+            user.setSavingsBal(user.getSavingsBal() + deposit);
+            System.out.println("New Savings balance: " + user.getSavingsBal());
+            FileIO.getSavings().set(index, String.valueOf(user.getSavingsBal()));
+        }
+        else {
+            user.setChequingBal(user.getChequingBal() + deposit);
+            System.out.println("New Chequing balance: " + user.getChequingBal());
+            FileIO.getChequing().set(index, String.valueOf(user.getChequingBal()));
+        }
+    }
+    public void CheckBalance(Account user) {
+        Scanner input = new Scanner(System.in);
+
+        int choice = 0;
+
+        while (true) {
+            try {
+                System.out.println("Which account would you like to check the balance for:\n1. Savings\n2. Chequing");
+                choice = input.nextInt();
+
+                if (choice == 1 || choice == 2) {
+                    break;
+                }
+                else {
+                    System.out.println("Invalid option. Please Try again.");
+                }
+            }
+            catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                input.nextLine();
+            }
+        }
+
+        if (choice == 1) {
+            System.out.println("Savings balance: " + user.getSavingsBal());
+        }
+        else {
+            System.out.println("Chequing balance: " + user.getChequingBal());
+        }
+    }
+
+    public void predictInterest(Account user) {
+        Scanner input = new Scanner(System.in);
+
+        double interestRate = 0.0;
+
+        while (true) {
+            try {
+                System.out.print("Enter the interest rate (%): ");
+                interestRate = input.nextDouble();
+                if (interestRate >= 0) {
+                    break;
+                }
+                else {
+                    System.out.println("Please enter a non-negative value for the interest rate.");
+                }
+            }
+            catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                input.nextLine();
+            }
+        }
+
+        double monthlyRate = interestRate / 12 / 100;
+
+        // Calculate projected interest for the next month
+        double nextMonthInterest = user.getSavingsBal() * monthlyRate;
+
+        // Calculate projected interest for the next year
+        double nextYearInterest = user.getSavingsBal() * interestRate / 100;
+
+        System.out.println("Projected interest for the next month: $" + nextMonthInterest);
+        System.out.println("Projected interest for the next year: $" + nextYearInterest);
+    }
+}
