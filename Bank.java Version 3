@@ -1,0 +1,108 @@
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Bank {
+    private String name = "DTX";
+
+    private static int index;
+    private static boolean loginLoop = true;
+    private static boolean tryLogin = true;
+    private static String choice;
+    Double savingBal;
+    Double chequingBal;
+    private String currentUsername;
+    private String currentPassword;
+    private double currentSavingsBalance;
+    private double currentChequingBalance;
+
+    public String getCurrentUsername() {
+        return currentUsername;
+    }
+
+    public String getCurrentPassword() {
+        return currentPassword;
+    }
+
+    public double getCurrentSavingsBalance() {
+        return currentSavingsBalance;
+    }
+
+    public double getCurrentChequingBalance() {
+        return currentChequingBalance;
+    }
+
+    public void Signup() {
+        Scanner Input = new Scanner(System.in);
+        System.out.println("===Signup===");
+Account user = new Account();
+        while (true) {
+            System.out.print("Enter the signup username: ");
+            String signupUsername = Input.next();
+
+            if (!FileIO.getUsernames().contains(signupUsername)) {
+                System.out.print("Enter the signup password: ");
+                String signupPassword = Input.next();
+                FileIO.getUsernames().add(signupUsername);
+                FileIO.getPasswords().add(signupPassword);
+                FileIO.getSavings().add(String.valueOf(0.0));
+                FileIO.getChequing().add(String.valueOf(0.0));
+                System.out.println("Signup successful.");
+                FileIO.writer();
+            }
+            else {
+                System.out.println("This account is already in use. Please try again.");
+                continue;
+            }
+//write accounts and password
+
+            System.out.print("Would you like to create another account (y/n)? ");
+            String answer = Input.next();
+
+            if (!answer.equalsIgnoreCase("y")) {
+                break;
+            }
+        }
+
+
+        Login();
+    }
+    public void Login() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("===Login===");
+
+        while (true) {
+            System.out.print("Enter your username: ");
+            String loginUsername = input.next();
+            System.out.print("Enter your password: ");
+            String loginPassword = input.next();
+
+            // Check if the entered username exists and if the password matches
+            if (FileIO.getUsernames().contains(loginUsername)) {
+                int index = FileIO.getUsernames().indexOf(loginUsername);
+                if (FileIO.getPasswords().get(index).equals(loginPassword)) {
+                    // Set the current user information
+                    currentUsername = loginUsername;
+                    currentPassword = loginPassword;
+                    currentSavingsBalance = Double.parseDouble(FileIO.getSavings().get(index));
+                    currentChequingBalance = Double.parseDouble(FileIO.getChequing().get(index));
+
+                    System.out.println("Login successful");
+                    break;
+                } else {
+                    System.out.println("Login failed. Please try again.");
+                }
+            } else {
+                System.out.print("Account not found. Would you like to try again (y/n) ");
+                String tryAgain = input.next();
+                if (!tryAgain.equalsIgnoreCase("y")) {
+                    System.out.println("Exiting.");
+                    System.exit(0);
+                }
+            }
+        }
+    }
+}
+
+
