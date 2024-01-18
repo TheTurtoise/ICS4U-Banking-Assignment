@@ -1,0 +1,75 @@
+import java.util.Scanner;
+import java.util.InputMismatchException;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Bank bank = new Bank();
+        FileIO.reader();
+        System.out.println("Welcome to DTX");
+        while (true) {
+            System.out.println("Do you want to: ");
+            System.out.println("1. Login");
+            System.out.println("2. Signup");
+            int choice = input.nextInt();
+
+            if (choice == 1) {
+                bank.Login();
+                break;
+            } else if (choice == 2) {
+                bank.Signup();
+                break;
+            } else {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
+        Account user = new Account();
+        user.setUsername(bank.getCurrentUsername());
+        user.setPassword(bank.getCurrentPassword());
+        user.setSavingsBal(bank.getCurrentSavingsBalance());
+        user.setChequingBal(bank.getCurrentChequingBalance());
+
+        System.out.println("");
+        System.out.println("Welcome to DTX Banking, ");
+        while (true) {
+            System.out.println("What would you like to do: ");
+            System.out.println("1. Deposit");
+            System.out.println("2. Withdraw");
+            System.out.println("3. Check Balance");
+            System.out.println("4. Predict Interest");
+            System.out.println("5. Exit");
+
+            int option;
+            try {
+                option = input.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                input.nextLine();  // Clear the invalid input from the scanner
+                continue;  // Go back to the beginning of the loop
+            }
+
+            BankSystem bankSystem = new BankSystem();
+
+            switch (option) {
+                case 1:
+                    bankSystem.Deposit(user);
+                    break;
+                case 2:
+                    bankSystem.Withdraw(user);
+                    break;
+                case 3:
+                    bankSystem.CheckBalance(user);
+                    break;
+                case 4:
+                    bankSystem.predictInterest(user);
+                    break;
+                case 5:
+                    System.out.println("Exiting. Goodbye!");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+            FileIO.writer();
+        }
+    }
+}
