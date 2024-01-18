@@ -1,0 +1,135 @@
+import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
+
+public class FileIO {
+    private static List<String> usernames = new ArrayList<>();
+    private static List<String> passwords = new ArrayList<>();
+    private static List<String> savings = new ArrayList<>();
+    private static List<String> chequing = new ArrayList<>();
+    private static String line;
+
+    FileIO() {
+
+    }
+
+    public static void reader() {
+        try {
+            // read usernames
+            FileReader fileReader = new FileReader("usernames.txt");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            while ((line = bufferedReader.readLine()) != null) {
+                usernames.add(line);
+            }
+
+            fileReader.close();
+
+            // read passwords
+            fileReader = new FileReader("passwords.txt");
+            bufferedReader = new BufferedReader(fileReader);
+            while ((line = bufferedReader.readLine()) != null) {
+                passwords.add(line);
+            }
+
+            fileReader.close();
+
+            // read savings
+            fileReader = new FileReader("savings.txt");
+            bufferedReader = new BufferedReader(fileReader);
+            while ((line = bufferedReader.readLine()) != null) {
+                savings.add(line);
+            }
+
+            bufferedReader.close();
+            fileReader.close();
+
+            // read chequing
+            fileReader = new FileReader("chequing.txt");
+            bufferedReader = new BufferedReader(fileReader);
+            while ((line = bufferedReader.readLine()) != null) {
+                chequing.add(line);
+            }
+
+            fileReader.close();
+
+        }
+        catch (FileNotFoundException e){
+            System.out.println("File not found");
+        }
+        // This just has to be here in order for the file to read and write properly
+        catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void writer() {
+        try {
+            // write usernames
+            FileWriter fileWriter = new FileWriter("usernames.txt");
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            for (String item : usernames) {
+                bufferedWriter.write(item);
+                bufferedWriter.newLine();
+            }
+            bufferedWriter.close();
+
+            // write passwords
+            fileWriter = new FileWriter("passwords.txt");
+            bufferedWriter = new BufferedWriter(fileWriter);
+            for (String item : passwords) {
+                bufferedWriter.write(item);
+                bufferedWriter.newLine();
+            }
+
+            bufferedWriter.close();
+
+            // write savings
+            fileWriter = new FileWriter("savings.txt");
+            bufferedWriter = new BufferedWriter(fileWriter);
+            for (String item : savings) {
+                bufferedWriter.write(item);
+                bufferedWriter.newLine();
+            }
+
+            bufferedWriter.close();
+
+            // write chequing
+            fileWriter = new FileWriter("chequing.txt");
+            bufferedWriter = new BufferedWriter(fileWriter);
+            for (String item : chequing) {
+                bufferedWriter.write(item);
+                bufferedWriter.newLine();
+            }
+
+            bufferedWriter.close();
+
+            bufferedWriter.close();
+            fileWriter.close();
+        }
+        catch (FileNotFoundException e){
+            System.out.println("File not found");
+        }
+        // This just has to be here in order for the file to read and write properly
+        catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static List<String> getUsernames() {
+        return usernames;
+    }
+
+    public static List<String> getPasswords() {
+        return passwords;
+    }
+
+    public static List<String> getSavings() {
+        return savings;
+    }
+
+    public static List<String> getChequing() {
+        return chequing;
+    }
+}
