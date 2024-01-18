@@ -1,0 +1,69 @@
+import java.io.*;
+import java.util.Scanner;
+
+public class Bank {
+    private String name = "DTX";
+
+    public void Signup() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("===Signup===");
+
+        while (true) {
+            System.out.print("Enter the signup username: ");
+            String signupUsername = input.next();
+
+            if (!FileIO.getUsernames().contains(signupUsername)) {
+                System.out.print("Enter the signup password: ");
+                String signupPassword = input.next();
+                FileIO.getUsernames().add(signupUsername);
+                FileIO.getPasswords().add(signupPassword);
+            }
+            else {
+                System.out.println("This account is already in use. Please try again.");
+            }
+//write accounts and password
+                FileIO.writer();
+                System.out.println("Signup successful.");
+
+            System.out.print("Would you like to create another account (y/n)? ");
+            String answer = input.next();
+
+            if (!answer.equalsIgnoreCase("y")) {
+                break;
+            }
+        }
+        Login();
+    }
+    public void Login() {
+        Scanner Input = new Scanner(System.in);
+        System.out.println("===Login===");
+        while (true) {
+            System.out.print("Enter your username: ");
+            String loginUsername = Input.next();
+            System.out.print("Enter your password: ");
+            String loginPassword = Input.next();
+
+            // Check if the entered username exists and if the password matches
+            if (FileIO.getUsernames().contains(loginUsername)) {
+                index = FileIO.getUsernames().indexOf(loginUsername);
+                if (FileIO.getPasswords().get(index).equals(loginPassword)) {
+                    System.out.println("Login successful");
+                } else {
+                    System.out.println("Login failed");
+                }
+            } else {
+                System.out.print("Account not found. Would you like to try again (y/n) ");
+                String tryAgain = Input.next();
+                if (tryAgain.equalsIgnoreCase("y")) {
+                    continue;
+                }
+                else {
+                    System.out.println("Exiting.    ");
+                    System.exit(0);
+                }
+            }
+        }
+    }
+}
+
+
