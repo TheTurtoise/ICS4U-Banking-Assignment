@@ -1,0 +1,42 @@
+public class Account {
+    private String username;
+    private String password;
+    private double savingsBalance;
+    private double chequingBalance;
+
+    public Account() {
+        this.username = null;
+        this.password = null;
+        this.savingsBalance = 0.0;
+        this.chequingBalance = 0.0;
+    }
+
+    // Getter methods
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public double getSavingsBal() {
+        return savingsBalance;
+    }
+
+    public double getChequingBal() {
+        return chequingBalance;
+    }
+
+    // Setter methods
+    public void setSavingsBal(double savingsBalance) {
+
+        this.savingsBalance = savingsBalance;
+    }
+
+    public void setChequingBal(double chequingBalance) {
+
+        this.chequingBalance = chequingBalance;
+    }
+
+}
